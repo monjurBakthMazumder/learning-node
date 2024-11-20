@@ -18,10 +18,17 @@ server.on("request", (req, res) => {
     );
 
     readableStream.on("data", (buffer) => {
+      res.statusCode = 200;
       res.write(buffer);
     });
     readableStream.on("end", () => {
-      res.end("Hello, world!");
+      res.statusCode = 200;
+      res.end("The streaming is over!");
+    });
+    readableStream.on("error", (error) => {
+      console.log(error);
+      res.statusCode = 500;
+      res.end("something want wrong!");
     });
   }
 });
